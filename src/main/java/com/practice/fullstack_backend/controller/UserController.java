@@ -1,5 +1,6 @@
 package com.practice.fullstack_backend.controller;
 
+import com.practice.fullstack_backend.exception.UserNotFoundException;
 import com.practice.fullstack_backend.model.User;
 import com.practice.fullstack_backend.repository.UserRepository;
 import jakarta.persistence.GeneratedValue;
@@ -23,5 +24,11 @@ public class UserController {
     @GetMapping("/user")
     List<User> getAllUsers(){
         return userRepository.findAll();
+    }
+
+    @GetMapping("/user/{id}")
+    User getUserByID(@PathVariable Long id){
+        return userRepository.findById(id)
+                .orElseThrow(()->new UserNotFoundException(id));
     }
 }
